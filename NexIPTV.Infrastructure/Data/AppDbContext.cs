@@ -7,20 +7,23 @@ using System.Threading.Tasks;
 
 namespace NexIPTV.Infrastructure.Data
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<CreditTransaction> CreditTransactions { get; set; }
-        public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
-        // Add other DbSets for Categories, Movies, etc.
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<User>()
+
+            builder.Entity<ApplicationUser>()
                 .HasMany(u => u.SubUsers)
                 .WithOne(u => u.ParentUser)
-                .HasForeignKey(u => u.ParentUserId);
+                .HasForeignKey(u => u.ParentUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<CreditTransaction>()
+                .HasIndex(t => t.TransactionDate);
         }
     }
 }

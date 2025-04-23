@@ -1,18 +1,22 @@
 ﻿@attribute [Authorize(Roles = "Admin")]
+@inject IResellerService ResellerService
 
-<CreditTransferForm OnTransfer="HandleCreditTransfer" />
-<ResellerHierarchyTree Data="@resellers" />
+<div class="reseller-hierarchy">
+    <TreeView Items="@resellers" TItem="ApplicationUser">
+        <NodeTemplate>
+            <div>
+                @context.Email - Credits: @context.CreditBalance
+                <button @onclick="() => ShowTransferModal(context.Id)">Transfer Credits</button>
+            </div>
+        </NodeTemplate>
+    </TreeView>
+</div>
 
 @code {
-    private List<User> resellers = new();
+    private List<ApplicationUser> resellers = new();
 
     protected override async Task OnInitializedAsync()
     {
-        resellers = await userService.GetResellersHierarchyAsync();
-    }
-
-    private async Task HandleCreditTransfer(CreditTransferDto transfer)
-    {
-        await resellerService.TransferCreditsAsync(transfer);
+        resellers = await ResellerService.GetResellerHierarchyAsync();
     }
 }

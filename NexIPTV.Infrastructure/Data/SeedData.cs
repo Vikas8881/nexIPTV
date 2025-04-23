@@ -8,19 +8,33 @@ namespace NexIPTV.Infrastructure.Data
 {
     public static class SeedData
     {
-        public static async Task SeedAdminAsync(UserManager<User> userManager)
+        public static async Task Initialize(IServiceProvider serviceProvider)
         {
-            var admin = new User
-            {
-                UserName = "admin@nexiptv.com",
-                Email = "admin@nexiptv.com",
-                CreditBalance = decimal.MaxValue,
-                IsTrial = false,
-                EmailConfirmed = true
-            };
+            using var context = new AppDbContext(
+                serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>());
 
-            await userManager.CreateAsync(admin, "Admin@1234!");
-            await userManager.AddToRoleAsync(admin, "Admin");
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Create Admin Role
+            if (!await roleManager.RoleExistsAsync("Admin"))
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+            // Create Admin User
+            if (await userManager.FindByEmailAsync("admin@nexiptv.com") == null)
+            {
+                var admin = new ApplicationUser
+                {
+                    UserName = "admin@nexiptv.com",
+                    Email = "admin@nexiptv.com",
+                    CreditBalance = decimal.MaxValue,
+                    IsTrial = false,
+                    EmailConfirmed = true
+                };
+
+                await userManager.CreateAsync(admin, "SecurePassword123!");
+                await userManager.AddToRoleAsync(admin, "Admin");
+            }
         }
     }
 }

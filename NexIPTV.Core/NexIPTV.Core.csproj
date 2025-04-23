@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NexIPTV.Infrastructure\NexIPTV.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
