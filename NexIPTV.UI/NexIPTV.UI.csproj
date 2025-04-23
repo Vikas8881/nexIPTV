@@ -5,5 +5,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+	<!-- UI.csproj -->
+	<ItemGroup>
+		<!-- Blazor Core -->
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
 
+		<!-- UI Components -->
+		<PackageReference Include="Radzen.Blazor" Version="5.0.15" />
+
+		<!-- Auth -->
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
+	</ItemGroup>
 </Project>

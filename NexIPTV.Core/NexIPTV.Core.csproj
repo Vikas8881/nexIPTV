@@ -9,5 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\NexIPTV.Infrastructure\NexIPTV.Infrastructure.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<!-- Validation -->
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
 </Project>
