@@ -1,0 +1,18 @@
+﻿@attribute [Authorize(Roles = "Admin")]
+
+<CreditTransferForm OnTransfer="HandleCreditTransfer" />
+<ResellerHierarchyTree Data="@resellers" />
+
+@code {
+    private List<User> resellers = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        resellers = await userService.GetResellersHierarchyAsync();
+    }
+
+    private async Task HandleCreditTransfer(CreditTransferDto transfer)
+    {
+        await resellerService.TransferCreditsAsync(transfer);
+    }
+}
