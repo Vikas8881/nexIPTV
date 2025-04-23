@@ -1,8 +1,15 @@
-using Microsoft.AspNetCore.Identity;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using NexIPTV.Core.Services;
+using NexIPTV.Infrastructure.Data;
+using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Add proper SQL Server configuration
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 

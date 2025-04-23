@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NexIPTV.API.Services;
+using NexIPTV.Core.Entities;
+using NexIPTV.Core.Services;
 using System.Security.Claims;
 
 namespace NexIPTV.API.Controllers

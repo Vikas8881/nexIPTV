@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-
+using NexIPTV.Core.Entities;
 namespace NexIPTV.API.Services
 {
     public class UserService

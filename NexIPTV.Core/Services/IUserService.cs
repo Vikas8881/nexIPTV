@@ -1,4 +1,5 @@
-﻿using NexIPTV.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using NexIPTV.Core.Entities;
 using NexIPTV.Infrastructure.Data;
 using System;
 using System.Collections.Generic;

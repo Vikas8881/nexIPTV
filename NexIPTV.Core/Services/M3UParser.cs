@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NexIPTV.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,28 +9,28 @@ namespace NexIPTV.Core.Services
 {
     public class M3UParser : IM3UParser
     {
-        public Playlist ParseM3UContent(string m3uContent, string userId)
+        public Playlist ParseM3UContent(string m3uContent)
         {
             var playlist = new Playlist();
-            var lines = m3uContent.Split('\n');
+            PlaylistItem currentItem = null;
 
-            foreach (var line in lines)
+            foreach (var line in m3uContent.Split('\n'))
             {
-                if (line.StartsWith("#EXTM3U"))
-                    continue;
-
                 if (line.StartsWith("#EXTINF"))
                 {
-                    var currentItem = new PlaylistItem();
-                    currentItem.Metadata = ParseExtinf(line);
+                    currentItem = new PlaylistItem();
+                    // Parse logic
                 }
                 else if (!string.IsNullOrWhiteSpace(line))
                 {
-                    currentItem.Url = line;
-                    playlist.Items.Add(currentItem);
+                    if (currentItem != null)
+                    {
+                        currentItem.Url = line;
+                        playlist.Items.Add(currentItem);
+                        currentItem = null;
+                    }
                 }
             }
-
             return playlist;
         }
 
