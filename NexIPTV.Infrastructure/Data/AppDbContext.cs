@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using NexIPTV.Core.Entities; // Add project reference to Core
 namespace NexIPTV.Infrastructure.Data
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser>
