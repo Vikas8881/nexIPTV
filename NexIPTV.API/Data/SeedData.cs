@@ -1,43 +1,43 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using NexIPTV.API.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NexIPTV.API.Data
 {
     public static class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider)
+        public static async Task Initialize(
+            AppDbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
-            using var context = new AppDbContext(
-                serviceProvider.GetRequiredService<DbContextOptions<AppDbContext>>());
-
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            // Create Admin Role
+            // Create roles
             if (!await roleManager.RoleExistsAsync("Admin"))
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
 
-            // Create Admin User
-            if (await userManager.FindByEmailAsync("admin@nexiptv.com") == null)
+            if (!await roleManager.RoleExistsAsync("Reseller"))
+                await roleManager.CreateAsync(new IdentityRole("Reseller"));
+
+            if (!await roleManager.RoleExistsAsync("User"))
+                await roleManager.CreateAsync(new IdentityRole("User"));
+
+            // Create admin user
+            var adminEmail = "admin@nexiptv.com";
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
                 var admin = new ApplicationUser
                 {
-                    UserName = "admin@nexiptv.com",
-                    Email = "admin@nexiptv.com",
+                    UserName = adminEmail,
+                    Email = adminEmail,
                     CreditBalance = decimal.MaxValue,
                     IsTrial = false,
                     EmailConfirmed = true
                 };
 
-                await userManager.CreateAsync(admin, "SecurePassword123!");
-                await userManager.AddToRoleAsync(admin, "Admin");
+                var result = await userManager.CreateAsync(admin, "Admin@1234!");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                }
             }
         }
     }

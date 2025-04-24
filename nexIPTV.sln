@@ -5,8 +5,6 @@ VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.API", "NexIPTV.API\NexIPTV.API.csproj", "{2DC0E9BF-C1AD-4803-B62D-168C3F700F70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.UI", "NexIPTV.UI\NexIPTV.UI.csproj", "{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{2DC0E9BF-C1AD-4803-B62D-168C3F700F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DC0E9BF-C1AD-4803-B62D-168C3F700F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DC0E9BF-C1AD-4803-B62D-168C3F700F70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,35 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NexIPTV.API.DTOs;
-using NexIPTV.API.Services;
+using NexIPTV.API.Interfaces;
 
-namespace NexIPTV.API.Controllers
+[Authorize(Roles = "Admin")]
+[Route("api/[controller]")]
+[ApiController]
+public class ResellersController : ControllerBase
 {
-    [Authorize(Roles = "Admin")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ResellersController : ControllerBase
+    private readonly IResellerService _resellerService;
+
+    public ResellersController(IResellerService resellerService)
     {
-        private readonly IResellerService _resellerService;
+        _resellerService = resellerService;
+    }
 
-        public ResellersController(IResellerService resellerService)
-        {
-            _resellerService = resellerService;
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateReseller([FromBody] CreateResellerDto dto)
+    {
+        await _resellerService.CreateResellerAsync(dto);
+        return Ok();
+    }
 
-        [HttpPost("create-reseller")]
-        public async Task<IActionResult> CreateReseller([FromBody] CreateResellerDto dto)
-        {
-            var reseller = await _resellerService.CreateResellerAsync(dto);
-            return Ok(reseller);
-        }
-
-        [HttpPost("transfer-credits")]
-        public async Task<IActionResult> TransferCredits([FromBody] CreditTransferDto dto)
-        {
-            await _resellerService.TransferCreditsAsync(dto);
-            return Ok();
-        }
+    [HttpPost("transfer-credits")]
+    public async Task<IActionResult> TransferCredits([FromBody] CreditTransferDto dto)
+    {
+        await _resellerService.TransferCreditsAsync(dto);
+        return Ok();
     }
 }

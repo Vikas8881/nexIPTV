@@ -9,7 +9,6 @@ namespace NexIPTV.API.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<CreditTransaction> CreditTransactions { get; set; }
-        public DbSet<Playlist> Playlists { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NexIPTV.API.Data;
 using NexIPTV.API.Entities;
+using NexIPTV.API.Interfaces;
 
 namespace NexIPTV.API.Services
 {
@@ -15,23 +16,39 @@ namespace NexIPTV.API.Services
             _context = context;
         }
 
+        // In UserService.cs
         public async Task TransferCreditsAsync(string senderId, string receiverId, decimal amount)
         {
+            var sender = await _userManager.FindByIdAsync(senderId);
+            var receiver = await _userManager.FindByIdAsync(receiverId);
+
+            // Implementation with actual await calls
+            sender.CreditBalance -= amount;
+            receiver.CreditBalance += amount;
+
+            await _context.SaveChangesAsync();
+        }
+        public async Task ActivateUserAsync(string activatorId, string userId)
+        {
+            if (string.IsNullOrEmpty(activatorId))
+                throw new ArgumentNullException(nameof(activatorId));
+            if (string.IsNullOrEmpty(userId))
+                throw new ArgumentNullException(nameof(userId));
+
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
-                var sender = await _userManager.FindByIdAsync(senderId);
-                var receiver = await _userManager.FindByIdAsync(receiverId);
+                var activator = await _userManager.FindByIdAsync(activatorId)
+                    ?? throw new InvalidOperationException("Activator not found");
 
-                if (sender.CreditBalance < amount)
-                    throw new InsufficientCreditsException();
+                var user = await _userManager.FindByIdAsync(userId)
+                    ?? throw new InvalidOperationException("User not found");
 
-                sender.CreditBalance -= amount;
-                receiver.CreditBalance += amount;
+                if (activator.CreditBalance < 1)
+                    throw new InvalidOperationException("Insufficient credits");
 
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
+                // Rest of the implementation...
             }
             catch
             {

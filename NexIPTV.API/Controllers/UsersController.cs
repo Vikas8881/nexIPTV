@@ -1,48 +1,42 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NexIPTV.API.DTOs;
-using NexIPTV.API.Services;
+using Microsoft.EntityFrameworkCore;
 using NexIPTV.API.Entities;
+using NexIPTV.API.Interfaces;
 using System.Security.Claims;
 
-namespace NexIPTV.API.Controllers
+[Authorize]
+[ApiController]
+[Route("api/users")]
+public class UsersController : ControllerBase
 {
-    [Authorize(Roles = "Admin")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    private readonly IUserService _userService;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public UsersController(IUserService userService, UserManager<ApplicationUser> userManager)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserService _userService;
+        _userService = userService;
+        _userManager = userManager;
+    }
 
-        [HttpPost("create-reseller")]
-        public async Task<IActionResult> CreateReseller([FromBody] CreateUserDto dto)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = dto.Email,
-                Email = dto.Email,
-                ParentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            };
+    [HttpPost("activate/{userId}")]
+    public async Task<IActionResult> ActivateUser(string userId)
+    {
+        var activatorId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? throw new UnauthorizedAccessException("User not authenticated");
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors);
+        await _userService.ActivateUserAsync(activatorId, userId);
+        return Ok(new { Message = "User activated successfully" });
+    }
 
-            await _userManager.AddToRoleAsync(user, "Reseller");
-            return Ok(user);
-        }
+    [HttpGet("trial-users")]
+    public async Task<IActionResult> GetTrialUsers()
+    {
+        var trialUsers = await _userManager.Users
+            .Where(u => u.IsTrial)
+            .ToListAsync();
 
-        [HttpPost("transfer-credits")]
-        public async Task<IActionResult> TransferCredits([FromBody] CreditTransferDto dto)
-        {
-            await _userService.TransferCreditsAsync(
-                User.FindFirstValue(ClaimTypes.NameIdentifier),
-                dto.ReceiverId,
-                dto.Amount
-            );
-            return Ok();
-        }
+        return Ok(trialUsers);
     }
 }

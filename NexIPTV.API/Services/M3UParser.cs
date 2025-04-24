@@ -1,44 +1,65 @@
-﻿using NexIPTV.API.Entities;
-using NexIPTV.API.Entities;
+﻿using NexIPTV.API.Models;
+using System.Text.RegularExpressions;
 
 namespace NexIPTV.API.Services
 {
+    public interface IM3UParser
+    {
+        ParsedPlaylist Parse(string m3uContent);
+    }
+
     public class M3UParser : IM3UParser
     {
-        public Playlist ParseM3UContent(string m3uContent)
+        public ParsedPlaylist Parse(string m3uContent)
         {
-            var playlist = new Playlist();
-            PlaylistItem currentItem = null;
+            var playlist = new ParsedPlaylist();
+            var lines = m3uContent.Split('\n');
+            PlaylistItem? currentItem = null;
 
-            foreach (var line in m3uContent.Split('\n'))
+            foreach (var line in lines)
             {
                 if (line.StartsWith("#EXTINF"))
                 {
-                    currentItem = new PlaylistItem();
-                    currentItem.Metadata = ParseExtinf(line);
-                }
-                else if (!string.IsNullOrWhiteSpace(line))
-                {
-                    if (currentItem != null)
+                    currentItem = new PlaylistItem
                     {
-                        currentItem.Url = line;
-                        playlist.Items.Add(currentItem);
-                        currentItem = null;
-                    }
+                        Metadata = ParseExtInf(line)
+                    };
+                }
+                else if (!string.IsNullOrWhiteSpace(line) && currentItem != null)
+                {
+                    currentItem.Url = line.Trim();
+                    playlist.Items.Add(currentItem);
+                    currentItem = null;
                 }
             }
+
             return playlist;
         }
 
-        private Metadata ParseExtinf(string line)
+        private Metadata ParseExtInf(string line)
         {
-            // Implement parsing logic
-            return new Metadata();
-        }
-    }
+            var metadata = new Metadata();
+            var groupMatch = Regex.Match(line, @"group-title=""([^""]*)""");
+            var nameMatch = Regex.Match(line, @"tvg-name=""([^""]*)""");
+            var logoMatch = Regex.Match(line, @"tvg-logo=""([^""]*)""");
 
-    public class Metadata
-    {
-        // Metadata properties
+            metadata.GroupTitle = groupMatch.Success ? groupMatch.Groups[1].Value : null;
+            metadata.TvgName = nameMatch.Success ? nameMatch.Groups[1].Value : null;
+            metadata.TvgLogo = logoMatch.Success ? logoMatch.Groups[1].Value : null;
+            metadata.Type = DetectContentType(metadata.GroupTitle, metadata.TvgName);
+
+            return metadata;
+        }
+
+        private ContentType DetectContentType(string? group, string? name)
+        {
+            if (group?.Contains("movie", StringComparison.OrdinalIgnoreCase) == true)
+                return ContentType.Movie;
+
+            if (name?.Contains(" S", StringComparison.OrdinalIgnoreCase) == true)
+                return ContentType.Series;
+
+            return ContentType.LiveTV;
+        }
     }
 }
