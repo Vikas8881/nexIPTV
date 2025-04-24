@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NexIPTV.API.Entities;
+using NexIPTV.Data;
 
 namespace NexIPTV.API.Data
 {

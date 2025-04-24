@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using NexIPTV.API.Services;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NexIPTV.Core.Entities
 {
@@ -36,6 +37,8 @@ namespace NexIPTV.Core.Entities
 
         [ForeignKey("PlaylistId")]
         public Playlist Playlist { get; set; }
+        public ContentType ContentType { get; set; }
+        public SeriesInfo SeriesInfo { get; set; }
     }
 
     public class HiddenContent

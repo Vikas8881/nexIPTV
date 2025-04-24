@@ -10,6 +10,7 @@ using System.Text;
 using NexIPTV.API.Interfaces;
 using NexIPTV.API.Services;
 using NexIPTV.API.Extensions;
+using NexIPTV.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to container
