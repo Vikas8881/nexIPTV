@@ -1,15 +1,19 @@
-﻿@using Microsoft.AspNetCore.Authorization
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Authorization
 @attribute [Authorize(Roles = "Admin")]
 @inject IResellerService ResellerService
+
 <div class="reseller-hierarchy">
-    <TreeView Items="@resellers" TItem="ApplicationUser">
-        <NodeTemplate>
+    @if (resellers != null)
+    {
+        @foreach (var reseller in resellers)
+        {
             <div>
-                @context.Email - Credits: @context.CreditBalance
-                <button @onclick="() => ShowTransferModal(context.Id)">Transfer Credits</button>
+                @reseller.Email - Credits: @reseller.CreditBalance
+                <button @onclick="() => ShowTransferModal(reseller.Id)">Transfer Credits</button>
             </div>
-        </NodeTemplate>
-    </TreeView>
+        }
+    }
 </div>
 
 @code {
@@ -18,5 +22,10 @@
     protected override async Task OnInitializedAsync()
     {
         resellers = await ResellerService.GetResellerHierarchyAsync();
+    }
+
+    private void ShowTransferModal(string userId)
+    {
+        // Implement modal logic here
     }
 }

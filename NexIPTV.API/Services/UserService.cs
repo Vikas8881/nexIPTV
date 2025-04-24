@@ -1,31 +1,34 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NexIPTV.Core.Entities;
+using NexIPTV.API.Data;
+using NexIPTV.API.Entities;
+
 namespace NexIPTV.API.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        public async Task RequestActivation(string userId)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AppDbContext _context;
+
+        public UserService(UserManager<ApplicationUser> userManager, AppDbContext context)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            user.IsActivationPending = true;
-            await _context.SaveChangesAsync();
+            _userManager = userManager;
+            _context = context;
         }
 
-        public async Task ActivateUser(string activatorId, string targetUserId)
+        public async Task TransferCreditsAsync(string senderId, string receiverId, decimal amount)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
-                var activator = await _userManager.FindByIdAsync(activatorId);
-                var targetUser = await _userManager.FindByIdAsync(targetUserId);
+                var sender = await _userManager.FindByIdAsync(senderId);
+                var receiver = await _userManager.FindByIdAsync(receiverId);
 
-                if (activator.CreditBalance < 1)
+                if (sender.CreditBalance < amount)
                     throw new InsufficientCreditsException();
 
-                activator.CreditBalance -= 1;
-                targetUser.ExpiryDate = DateTime.UtcNow.AddYears(1);
-                targetUser.ActivatedBy = activator;
+                sender.CreditBalance -= amount;
+                receiver.CreditBalance += amount;
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();

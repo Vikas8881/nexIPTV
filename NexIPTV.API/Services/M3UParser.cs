@@ -1,11 +1,7 @@
-﻿using NexIPTV.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NexIPTV.API.Entities;
+using NexIPTV.API.Entities;
 
-namespace NexIPTV.Core.Services
+namespace NexIPTV.API.Services
 {
     public class M3UParser : IM3UParser
     {
@@ -19,7 +15,7 @@ namespace NexIPTV.Core.Services
                 if (line.StartsWith("#EXTINF"))
                 {
                     currentItem = new PlaylistItem();
-                    // Parse logic
+                    currentItem.Metadata = ParseExtinf(line);
                 }
                 else if (!string.IsNullOrWhiteSpace(line))
                 {
@@ -36,10 +32,13 @@ namespace NexIPTV.Core.Services
 
         private Metadata ParseExtinf(string line)
         {
-            // Implement regex parsing for:
-            // group-title="(.*?)"
-            // tvg-name="(.*?)"
-            // tvg-logo="(.*?)"
+            // Implement parsing logic
+            return new Metadata();
         }
+    }
+
+    public class Metadata
+    {
+        // Metadata properties
     }
 }

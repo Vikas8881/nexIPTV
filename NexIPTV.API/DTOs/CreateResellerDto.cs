@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NexIPTV.Core.DTOs
+namespace NexIPTV.API.DTOs
 {
     public class CreateResellerDto
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NexIPTV.Core.Exceptions
+namespace NexIPTV.API.Exceptions
 {
     public class InsufficientCreditsException : Exception
     {

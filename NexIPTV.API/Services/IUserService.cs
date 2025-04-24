@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using NexIPTV.Core.Entities;
-using NexIPTV.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.AspNetCore.Identity;
+using NexIPTV.API.Data;
+using NexIPTV.API.Entities;
 
-namespace NexIPTV.Core.Services
+namespace NexIPTV.API.Services
 {
     public interface IUserService
     {

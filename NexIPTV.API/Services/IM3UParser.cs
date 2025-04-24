@@ -1,11 +1,11 @@
-﻿using NexIPTV.Core.Entities;
+﻿using NexIPTV.API.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NexIPTV.Core.Services
+namespace NexIPTV.API.Services
 {
     // IM3UParser.cs
     public interface IM3UParser

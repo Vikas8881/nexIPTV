@@ -1,4 +1,4 @@
-﻿namespace NexIPTV.Core.DTOs
+﻿namespace NexIPTV.API.DTOs
 {
     public class CreditTransferDto
     {

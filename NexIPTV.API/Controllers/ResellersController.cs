@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NexIPTV.Core.DTOs;
+using NexIPTV.API.DTOs;
+using NexIPTV.API.Services;
 
 namespace NexIPTV.API.Controllers
 {
@@ -11,6 +12,11 @@ namespace NexIPTV.API.Controllers
     public class ResellersController : ControllerBase
     {
         private readonly IResellerService _resellerService;
+
+        public ResellersController(IResellerService resellerService)
+        {
+            _resellerService = resellerService;
+        }
 
         [HttpPost("create-reseller")]
         public async Task<IActionResult> CreateReseller([FromBody] CreateResellerDto dto)

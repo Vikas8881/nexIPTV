@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.API", "NexIPTV.API\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.UI", "NexIPTV.UI\NexIPTV.UI.csproj", "{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.Core", "NexIPTV.Core\NexIPTV.Core.csproj", "{86C0A857-3914-4F84-A497-8EAAB2BE95E9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexIPTV.Infrastructure", "NexIPTV.Infrastructure\NexIPTV.Infrastructure.csproj", "{BDAD988B-EDF0-4AFB-959C-37788A71BABF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B143A3D9-DC6E-401B-BF6C-2C97D9320E6E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86C0A857-3914-4F84-A497-8EAAB2BE95E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86C0A857-3914-4F84-A497-8EAAB2BE95E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86C0A857-3914-4F84-A497-8EAAB2BE95E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86C0A857-3914-4F84-A497-8EAAB2BE95E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BDAD988B-EDF0-4AFB-959C-37788A71BABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BDAD988B-EDF0-4AFB-959C-37788A71BABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BDAD988B-EDF0-4AFB-959C-37788A71BABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BDAD988B-EDF0-4AFB-959C-37788A71BABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

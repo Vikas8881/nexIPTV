@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,9 +27,5 @@
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\NexIPTV.Core\NexIPTV.Core.csproj" />
-		<ProjectReference Include="..\NexIPTV.Infrastructure\NexIPTV.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>

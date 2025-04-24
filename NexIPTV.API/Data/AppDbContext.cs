@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace NexIPTV.Infrastructure.Data
+using NexIPTV.API.Entities;
+
+namespace NexIPTV.API.Data
 {
     public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) // Add constructor
-            : base(options)
-        {
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
         public DbSet<CreditTransaction> CreditTransactions { get; set; }
         public DbSet<Playlist> Playlists { get; set; }
 
@@ -26,9 +20,6 @@ namespace NexIPTV.Infrastructure.Data
                 .WithOne(u => u.ParentUser)
                 .HasForeignKey(u => u.ParentUserId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<CreditTransaction>()
-                .HasIndex(t => t.TransactionDate);
         }
     }
 }

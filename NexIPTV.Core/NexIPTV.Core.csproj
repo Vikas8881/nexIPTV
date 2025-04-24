@@ -5,12 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\NexIPTV.Infrastructure\NexIPTV.Infrastructure.csproj" />
-  </ItemGroup>
 	<ItemGroup>
 		<!-- Validation -->
+		<PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.15" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 </Project>
