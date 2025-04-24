@@ -23,9 +23,7 @@ public class UsersController : ControllerBase
     [HttpPost("activate/{userId}")]
     public async Task<IActionResult> ActivateUser(string userId)
     {
-        var activatorId = User.FindFirstValue(ClaimTypes.NameIdentifier)
-            ?? throw new UnauthorizedAccessException("User not authenticated");
-
+        var activatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         await _userService.ActivateUserAsync(activatorId, userId);
         return Ok(new { Message = "User activated successfully" });
     }

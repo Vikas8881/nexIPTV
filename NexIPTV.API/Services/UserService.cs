@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NexIPTV.API.Data;
 using NexIPTV.API.Entities;
+using NexIPTV.API.Exceptions;
 using NexIPTV.API.Interfaces;
 
 namespace NexIPTV.API.Services
@@ -28,27 +29,33 @@ namespace NexIPTV.API.Services
 
             await _context.SaveChangesAsync();
         }
+      
         public async Task ActivateUserAsync(string activatorId, string userId)
         {
-            if (string.IsNullOrEmpty(activatorId))
-                throw new ArgumentNullException(nameof(activatorId));
-            if (string.IsNullOrEmpty(userId))
-                throw new ArgumentNullException(nameof(userId));
-
             using var transaction = await _context.Database.BeginTransactionAsync();
-
             try
             {
                 var activator = await _userManager.FindByIdAsync(activatorId)
-                    ?? throw new InvalidOperationException("Activator not found");
+                    ?? throw new UserNotFoundException(activatorId);
 
                 var user = await _userManager.FindByIdAsync(userId)
-                    ?? throw new InvalidOperationException("User not found");
+                    ?? throw new UserNotFoundException(userId);
 
                 if (activator.CreditBalance < 1)
-                    throw new InvalidOperationException("Insufficient credits");
+                    throw new InsufficientCreditsException();
 
-                // Rest of the implementation...
+                // Deduct 1 credit from reseller
+                activator.CreditBalance -= 1;
+                await _userManager.UpdateAsync(activator);
+
+                // Activate user
+                user.IsTrial = false;
+                user.ExpiryDate = DateTime.UtcNow.AddYears(1);
+                user.ActivatedBy = activator;
+                await _userManager.UpdateAsync(user);
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
             }
             catch
             {
