@@ -1,4 +1,5 @@
 ﻿using NexIPTV.API.Models;
+using NexIPTV.Core.Entities;
 using System.Text.RegularExpressions;
 
 namespace NexIPTV.API.Services
@@ -59,7 +60,7 @@ namespace NexIPTV.API.Services
             if (name?.Contains(" S", StringComparison.OrdinalIgnoreCase) == true)
                 return ContentType.Series;
 
-            return ContentType.LiveTV;
+            return ContentType.Live;
         }
     }
 }
